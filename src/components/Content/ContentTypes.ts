@@ -1,6 +1,3 @@
-// subsets:	[…]
-// files:	{…}
-
 export type TVariants = [
   '100',
   '200',
@@ -25,6 +22,8 @@ export interface IFont {
   family: String;
   version: String;
   variants: TVariants;
+  subsets: Array<String>;
+  files: Array<String>;
   lastModified: String;
   category: ECategory;
   kind?: String;
