@@ -3,8 +3,9 @@ import axios from 'axios';
 import { FC, PropsWithChildren, useState, useEffect } from 'react';
 import { debounce } from '../../assets/helpers/helpers';
 import { IFont } from './ContentTypes';
+import { Accordeon } from './Accordeon';
 
-const url = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}`;
+const url = `https://www.googleapis.com/webfonts/v1/webfonts?key=${API_KEY}&sort=popularity`;
 
 const Content: FC<PropsWithChildren> = ({ children }) => {
   const [fonts, setFonts] = useState([]);
@@ -35,26 +36,24 @@ const Content: FC<PropsWithChildren> = ({ children }) => {
       <div>
         <input type="text" onInput={findFont} />
       </div>
-
-      {currentFonts.map((font: IFont) => (
-        <ul key={font.family as string} className="mb-4">
-          <li>font-family: {font.family}</li>
-          <li>
-            font-files:
-            {Object.entries(font.files).map((file) => {
-              const [fontType, fontLink] = file;
-              return (
-                <div key={fontLink as string}>
-                  type: {fontType}, <a href={fontLink as string}>download</a>
-                </div>
-              );
-            })}
+      <ul>
+        {currentFonts.map((font: IFont, index) => (
+          <li key={font.family as string} className="mb-5">
+            <Accordeon
+              index={index}
+              title={font.family}
+              body={Object.entries(font.files).map((file) => {
+                const [fontType, fontLink] = file;
+                return (
+                  <div key={fontLink as string}>
+                    type: {fontType}, <a href={fontLink as string}>download</a>
+                  </div>
+                );
+              })}
+            />
           </li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      ))}
+        ))}
+      </ul>
     </div>
   );
 };
